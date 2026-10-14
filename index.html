@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRURU MUSEUM — Executive Presentation Web App</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Chakra Petch, IBM Plex Sans Thai, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="specimen-grid-bg text-[#F2EDE3]">
+  <!-- Scanline Subtle Overlay (3% opacity) -->
+  <div class="scanline-overlay"></div>
+
+  <!-- App Header / HUD Top Bar -->
+  <header class="fixed top-0 left-0 right-0 h-16 bg-[#0B0B0F]/90 backdrop-blur-md border-b border-[#2C2C3A] z-50 flex items-center justify-between px-6">
+    <div class="flex items-center gap-4">
+      <button id="btn-toc-toggle" class="p-2 border border-[#2C2C3A] hover:border-[#D7FF3A] hover:bg-[#17171F] transition-all text-[#D7FF3A] font-mono text-xs flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        <span>HALLS INDEX</span>
+      </button>
+
+      <!-- Brand Logo / Specimen Badge -->
+      <div class="flex items-center gap-3">
+        <img src="assets/gruru_logo.svg" alt="GRURU MUSEUM" class="h-9 w-auto">
+        <span class="hidden md:inline-block h-4 w-[1px] bg-[#2C2C3A]"></span>
+        <span id="header-hall-badge" class="hidden md:inline-block font-mono text-xs text-[#8A8A9E]">HALL 00 // FUTURE ARCHAEOLOGY</span>
+      </div>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center gap-3">
+      <!-- Slide Counter -->
+      <div class="border border-[#2C2C3A] bg-[#17171F] px-3 py-1 font-mono text-xs text-[#D7FF3A] flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[#D7FF3A] animate-pulse"></span>
+        <span id="slide-counter-display">01 / 09</span>
+      </div>
+
+      <!-- Presenter Notes Toggle -->
+      <button id="btn-notes-toggle" class="p-2 border border-[#2C2C3A] hover:border-[#D7FF3A] hover:bg-[#17171F] text-[#8A8A9E] hover:text-[#D7FF3A] transition-all font-mono text-xs flex items-center gap-1.5" title="Executive Speaking Notes (Hotkey: N)">
+        <span>📝</span>
+        <span class="hidden sm:inline">NOTES</span>
+      </button>
+
+      <!-- Sound FX Toggle -->
+      <button id="btn-sound-toggle" class="p-2 border border-[#2C2C3A] hover:border-[#D7FF3A] hover:bg-[#17171F] text-[#8A8A9E] hover:text-[#D7FF3A] transition-all font-mono text-xs flex items-center gap-1.5" title="Toggle Sound FX (Hotkey: M)">
+        <span id="sound-icon">🔊</span>
+        <span id="sound-text" class="hidden sm:inline">AUDIO</span>
+      </button>
+
+      <!-- Fullscreen Toggle -->
+      <button id="btn-fullscreen" class="p-2 border border-[#2C2C3A] hover:border-[#D7FF3A] hover:bg-[#17171F] text-[#8A8A9E] hover:text-[#D7FF3A] transition-all font-mono text-xs" title="Fullscreen (Hotkey: F)">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Top Progress Bar -->
+  <div class="fixed top-16 left-0 right-0 h-[3px] bg-[#17171F] z-50">
+    <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-[#FF5A1F] via-[#8C6BFF] to-[#D7FF3A] transition-all duration-300" style="width: 11.11%;"></div>
+  </div>
+
+  <!-- Main Slides Container -->
+  <main class="slide-container">
+
+    <!-- ===================================================================
+         SLIDE 1: HALL 00 - FUTURE ARCHAEOLOGY (Executive Cover & Vision)
+         =================================================================== -->
+    <section class="slide-item active" id="slide-0">
+      <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+        <!-- Left: Pitch Hook & Strategic Vision -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2">
+            <span class="specimen-label">GRM-2026-EXEC-001</span>
+            <span class="font-mono text-xs text-[#2EE6FF] border border-[#2EE6FF]/30 px-2 py-0.5 bg-[#2EE6FF]/10">C-LEVEL PROPOSAL</span>
+          </div>
+
+          <div class="space-y-2">
+            <h1 class="font-chakra text-4xl sm:text-6xl font-bold tracking-tight text-[#F2EDE3] uppercase leading-none">
+              GRURU <span class="text-[#D7FF3A]">MUSEUM</span>
+            </h1>
+            <p class="font-mono text-sm sm:text-base text-time-warp font-medium tracking-wide">
+              NEW KNOWLEDGE. NEW STORYTELLING. BUILT FOR EVERYDAY LIVING.
+            </p>
+          </div>
+
+          <div class="hud-card p-6 border-l-4 border-l-[#D7FF3A]">
+            <h2 class="font-chakra text-lg font-bold text-[#D7FF3A] mb-2">คอนเซปต์หลัก: Future Archaeology (โบราณคดีแห่งอนาคต)</h2>
+            <p class="font-thai text-sm text-[#F2EDE3] leading-relaxed">
+              เปรียบเสมือน <strong>“ห้องแล็บของนักโบราณคดีจากอนาคต”</strong> ที่ย้อนกลับมาศึกษาความรู้และภูมิปัญญาของมนุษยชาติ ผสานความนิ่งเรียบแบบแกลเลอรี Modern Art เข้ากับความล้ำสมัยของห้องแล็บ Sci-Fi เพื่อเปลี่ยนความรู้ที่ซ่อนอยู่ในอดีต ให้กลายเป็นชุดข้อมูลและเรื่องเล่าที่คนรุ่นใหม่นำไปใช้ได้จริงทุกวัน
+            </p>
+          </div>
+
+          <!-- 3-Second Core Essence -->
+          <div class="grid grid-cols-3 gap-3">
+            <div class="hud-card p-3 bg-[#17171F]">
+              <div class="font-mono text-xs text-[#D7FF3A] font-bold">01 // NEW KNOWLEDGE</div>
+              <div class="text-xs text-[#8A8A9E] mt-1 font-thai">ความรู้ค้นพบใหม่ ตรวจสอบที่มาได้ 100%</div>
+            </div>
+            <div class="hud-card p-3 bg-[#17171F]">
+              <div class="font-mono text-xs text-[#FF5A1F] font-bold">02 // NEW STORYTELLING</div>
+              <div class="text-xs text-[#8A8A9E] mt-1 font-thai">เล่าด้วยภาพ กราฟ และ Interactive จบใน 3 นาที</div>
+            </div>
+            <div class="hud-card p-3 bg-[#17171F]">
+              <div class="font-mono text-xs text-[#2EE6FF] font-bold">03 // EVERYDAY LIVING</div>
+              <div class="text-xs text-[#8A8A9E] mt-1 font-thai">ทุกเรื่องจบด้วย Everyday Takeaway นำไปใช้ทันที</div>
+            </div>
+          </div>
+
+          <!-- Action CTA -->
+          <div class="pt-2 flex flex-wrap items-center gap-4">
+            <button onclick="App.nextSlide()" class="hud-btn">
+              <span>เริ่มสำรวจนิทรรศการ (START PRESENTATION)</span>
+              <span>→</span>
+            </button>
+            <span class="font-mono text-xs text-[#8A8A9E]">หรือใช้ปุ่มลูกศร [→] บนคีย์บอร์ด</span>
+          </div>
+        </div>
+
+        <!-- Right: Museum Hero Concept Rendering -->
+        <div class="lg:col-span-5 relative">
+          <div class="hud-card p-2 bg-[#0B0B0F] relative group overflow-hidden">
+            <div class="aspect-video lg:aspect-[4/3] overflow-hidden relative">
+              <img src="assets/gruru_museum_hero.jpg" alt="GRURU MUSEUM Interior" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0B0B0F] via-transparent to-transparent opacity-80"></div>
+              
+              <!-- Floating HUD Tag -->
+              <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs font-mono bg-[#0B0B0F]/85 p-2 border border-[#2C2C3A]">
+                <span class="text-[#D7FF3A]">● FUTURE ARCHAEOLOGY LAB</span>
+                <span class="text-[#8A8A9E]">EXHIBITION HALL 01</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3 flex items-center justify-between text-[11px] font-mono text-[#8A8A9E]">
+            <span>THEME: PAST WARM × FUTURE ELECTRIC</span>
+            <span class="text-[#34E89E]">STATUS: EXECUTIVE READY</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SLIDE 2: HALL 01 - PROBLEM & BRAND POSITIONING (3-Sec Insight)
+         =================================================================== -->
+    <section class="slide-item" id="slide-1">
+      <div class="max-w-7xl mx-auto w-full my-auto space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2C2C3A] pb-4">
+          <div>
+            <div class="specimen-label mb-2">GRM-2026-POS-002 // STRATEGIC BLUE OCEAN</div>
+            <h2 class="font-chakra text-3xl font-bold uppercase text-[#F2EDE3]">
+              วิกฤตการเสพความรู้ และตำแหน่งทางการตลาด (BRAND POSITIONING)
+            </h2>
+          </div>
+          <div class="font-mono text-xs text-[#D7FF3A]">
+            แก่นแบรนด์: “อดีตคือข้อมูล อนาคตคือเรื่องเล่า”
+          </div>
+        </div>
+
+        <!-- The 3-Second Dilemma Comparison -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="hud-card p-5 bg-[#17171F]/50 border-red-900/40">
+            <div class="font-mono text-xs text-[#FF3B4E] font-bold flex items-center gap-2 mb-2">
+              <span>⚠️ PAIN POINT 01: คอนเทนต์คลิปสั้น (Short-form Video)</span>
+            </div>
+            <p class="font-thai text-sm text-[#8A8A9E]">
+              สนุก ฉาบฉวย ไม่บอกแหล่งที่มา ไม่สามารถตรวจสอบความถูกต้องได้จริง และมักลืมภายใน 10 นาทีหลังจากเลื่อนผ่าน
+            </p>
+          </div>
+
+          <div class="hud-card p-5 bg-[#17171F]/50 border-yellow-900/40">
+            <div class="font-mono text-xs text-[#FFC233] font-bold flex items-center gap-2 mb-2">
+              <span>⚠️ PAIN POINT 02: สารานุกรม / บทความวิชาการเดิม</span>
+            </div>
+            <p class="font-thai text-sm text-[#8A8A9E]">
+              น่าเชื่อถือแต่แห้งแล้ง ยาวเกินไป รู้สึกเหมือนนั่งเรียน ไม่มีภาษาภาพ และขาดการเชื่อมโยงกับชีวิตประจำวัน
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive 2x2 Perceptual Map (Brief Step 3) -->
+        <div class="hud-card p-6 bg-[#0B0B0F] border border-[#2C2C3A]">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-chakra font-bold text-base text-[#D7FF3A]">PERCEPTUAL MAP: พื้นที่ยุทธศาสตร์ที่ไม่มีคู่แข่ง (BLUE OCEAN)</span>
+            <span class="font-mono text-xs text-[#8A8A9E]">ชี้หรือคลิกที่กรอบเพื่อดูบทวิเคราะห์</span>
+          </div>
+
+          <div class="relative w-full h-[320px] bg-[#17171F]/40 border border-[#2C2C3A] rounded flex items-center justify-center p-4">
+            <!-- Axis Lines -->
+            <div class="absolute inset-x-0 top-1/2 h-[1px] bg-[#2C2C3A]"></div>
+            <div class="absolute inset-y-0 left-1/2 w-[1px] bg-[#2C2C3A]"></div>
+
+            <!-- Axis Labels -->
+            <span class="absolute top-2 left-1/2 -translate-x-1/2 font-mono text-[11px] text-[#2EE6FF] bg-[#0B0B0F] px-2 border border-[#2C2C3A]">▲ เชื่อมโยงแบบเครือข่าย (NETWORK / GRAPH)</span>
+            <span class="absolute bottom-2 left-1/2 -translate-x-1/2 font-mono text-[11px] text-[#8A8A9E] bg-[#0B0B0F] px-2 border border-[#2C2C3A]">▼ เล่าแบบเส้นตรง (LINEAR TEXT)</span>
+            <span class="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-[11px] text-[#8A8A9E] bg-[#0B0B0F] px-2 border border-[#2C2C3A]">◄ วิชาการน่าเบื่อ (DRY / ACADEMIC)</span>
+            <span class="absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[11px] text-[#FF5A1F] bg-[#0B0B0F] px-2 border border-[#2C2C3A]">► สนุก & มีหลักฐาน (ENGAGING & PROVEN)</span>
+
+            <!-- Quadrants Placed Entities -->
+            <!-- Q1: Bottom Left - Academic Journals -->
+            <div class="perceptual-item absolute top-[62%] left-[20%] p-2.5 bg-[#0B0B0F] border border-[#2C2C3A] text-center transition-all cursor-pointer">
+              <div class="font-mono text-xs text-[#8A8A9E]">ตำราวิชาการ / วารสาร</div>
+              <div class="text-[10px] text-gray-500 font-thai">ลึกแต่ยาก เข้าถึงยาก</div>
+            </div>
+
+            <!-- Q2: Bottom Center/Left - Wikipedia -->
+            <div class="perceptual-item absolute top-[55%] left-[38%] p-2.5 bg-[#0B0B0F] border border-[#2C2C3A] text-center transition-all cursor-pointer">
+              <div class="font-mono text-xs text-[#8A8A9E]">Wikipedia / สารานุกรม</div>
+              <div class="text-[10px] text-gray-500 font-thai">ครบถ้วนแต่เป็นข้อความยาว</div>
+            </div>
+
+            <!-- Q3: Bottom Right - TikTok / Reels -->
+            <div class="perceptual-item absolute top-[65%] right-[15%] p-2.5 bg-[#0B0B0F] border border-[#2C2C3A] text-center transition-all cursor-pointer">
+              <div class="font-mono text-xs text-[#FF5A1F]">TikTok / Reels ย่อยเร็ว</div>
+              <div class="text-[10px] text-gray-400 font-thai">ไวแต่ผิวเผิน ไร้ที่มา</div>
+            </div>
+
+            <!-- Q4: Top Right - GRURU MUSEUM (Winner) -->
+            <div class="perceptual-item absolute top-[18%] right-[18%] p-4 bg-[#17171F] border-2 border-[#D7FF3A] text-center transition-all shadow-[0_0_30px_rgba(215,255,58,0.25)] cursor-pointer">
+              <div class="flex items-center justify-center gap-1.5 mb-1">
+                <span class="w-2.5 h-2.5 bg-[#D7FF3A] rounded-full animate-ping"></span>
+                <span class="font-chakra font-bold text-sm text-[#D7FF3A]">GRURU MUSEUM</span>
+              </div>
+              <div class="text-xs text-[#F2EDE3] font-thai font-semibold">สนุก มีหลักฐาน + โต้ตอบแบบเครือข่าย</div>
+              <div class="font-mono text-[10px] text-[#2EE6FF] mt-1">THE CURATOR FROM THE FUTURE</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 bg-[#17171F] border-l-2 border-[#D7FF3A] flex items-center justify-between font-thai text-xs text-[#F2EDE3]">
+          <div>🎯 <strong>คำสัญญาของแบรนด์ (Brand Promise):</strong> ทุกการเยี่ยมชม 3–5 นาที ต้องได้ความรู้อย่างน้อย 1 เรื่องกลับไปใช้จริงในชีวิตประจำวัน</div>
+          <span class="font-mono text-[#D7FF3A]">PROMISE METRIC: 100%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SLIDE 3: HALL 02 - THE 5-STEP EXCAVATION ENGINE
+         =================================================================== -->
+    <section class="slide-item" id="slide-2">
+      <div class="max-w-7xl mx-auto w-full my-auto space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2C2C3A] pb-4">
+          <div>
+            <div class="specimen-label mb-2">GRM-2026-ENG-003 // KNOWLEDGE PIPELINE</div>
+            <h2 class="font-chakra text-3xl font-bold uppercase text-[#F2EDE3]">
+              เครื่องยนต์ 5 ขั้นตอน: จากการขุดค้นสู่การใช้จริง (THE 5-STEP ENGINE)
+            </h2>
+          </div>
+          <div class="font-mono text-xs text-[#8A8A9E]">
+            EXCAVATE → DECODE → RETELL → CONNECT → APPLY
+          </div>
+        </div>
+
+        <!-- 5 Steps Interactive Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+          <div class="hud-card p-4 bg-[#17171F] border-t-2 border-t-[#FF5A1F]">
+            <div class="font-mono text-xs text-[#FF5A1F] font-bold">01 // EXCAVATE</div>
+            <div class="font-chakra font-bold text-sm text-[#F2EDE3] mt-1">ขุดค้น & คัดสรร</div>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2 leading-relaxed">
+              สกัดความรู้ล้ำค่าจากประวัติศาสตร์ วิทยาศาสตร์ และภูมิปัญญาโบราณ พร้อมระบุแหล่งที่มาและหลักฐานทุกชิ้น
+            </p>
+          </div>
+
+          <div class="hud-card p-4 bg-[#17171F] border-t-2 border-t-[#2EE6FF]">
+            <div class="font-mono text-xs text-[#2EE6FF] font-bold">02 // DECODE</div>
+            <div class="font-chakra font-bold text-sm text-[#F2EDE3] mt-1">ถอดรหัสความสัมพันธ์</div>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2 leading-relaxed">
+              แปลงข้อมูลดิบให้กลายเป็นโหนด (Entities) และเส้นเชื่อมความสัมพันธ์ (Semantic Relations) ในกราฟความรู้
+            </p>
+          </div>
+
+          <div class="hud-card p-4 bg-[#17171F] border-t-2 border-t-[#8C6BFF]">
+            <div class="font-mono text-xs text-[#8C6BFF] font-bold">03 // RETELL</div>
+            <div class="font-chakra font-bold text-sm text-[#F2EDE3] mt-1">เล่าใหม่ด้วยภาพ</div>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2 leading-relaxed">
+              นำเสนอเป็น Visual Storytelling แกลเลอรีดิจิทัลที่ผู้ใช้เข้าใจและเสพจบได้ภายใน 3–5 นาทีโดยไม่เบื่อ
+            </p>
+          </div>
+
+          <div class="hud-card p-4 bg-[#17171F] border-t-2 border-t-[#34E89E]">
+            <div class="font-mono text-xs text-[#34E89E] font-bold">04 // CONNECT</div>
+            <div class="font-chakra font-bold text-sm text-[#F2EDE3] mt-1">เชื่อมโยงข้ามมิติ</div>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2 leading-relaxed">
+              เปิดชุดข้อมูลผ่าน Data Booming และ Interactive Graph ให้ผู้ใช้สำรวจความเชื่อมโยงข้ามศาสตร์ได้ด้วยตนเอง
+            </p>
+          </div>
+
+          <div class="hud-card p-4 bg-[#17171F] border-t-2 border-t-[#D7FF3A] bg-[#17171F]/90">
+            <div class="font-mono text-xs text-[#D7FF3A] font-bold">05 // APPLY</div>
+            <div class="font-chakra font-bold text-sm text-[#D7FF3A] mt-1">นำไปใช้ในชีวิตจริง</div>
+            <p class="font-thai text-xs text-[#F2EDE3] mt-2 leading-relaxed">
+              ปิดท้ายทุกนิทรรศการด้วยการ์ด <strong>Everyday Takeaway</strong> สรุปวิธีนำหลักคิดนั้นไปใช้ในชีวิตทันที
+            </p>
+          </div>
+        </div>
+
+        <!-- Visual Multi-Source Ingestion Artifact -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-8 hud-card p-3 bg-[#0B0B0F] overflow-hidden">
+            <div class="aspect-video relative rounded overflow-hidden">
+              <img src="assets/kg_futuristic_podium.png" alt="Knowledge Ingestion Engine" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0B0B0F] via-transparent to-transparent opacity-60"></div>
+              
+              <div class="absolute top-3 left-3 bg-[#0B0B0F]/80 p-2 border border-[#2C2C3A] font-mono text-[10px] text-[#2EE6FF]">
+                MULTI-SOURCE INGESTION: BOOKS + DATABASES + COMMUNITY → KNOWLEDGE GRAPH
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 space-y-3">
+            <div class="hud-card p-4 bg-[#17171F]">
+              <span class="font-mono text-xs text-[#D7FF3A]">PROVENANCE GUARANTEE</span>
+              <h4 class="font-chakra font-bold text-base text-[#F2EDE3] mt-1">100% Fact-Checked</h4>
+              <p class="font-thai text-xs text-[#8A8A9E] mt-1">
+                ทุกโหนดในพิพิธภัณฑ์ระบุแหล่งอ้างอิง ปีค้นพบ และผู้เชี่ยวชาญตรวจสอบ ต่างจาก AI Chatbot ที่อาจสร้างข้อมูลเท็จ (Hallucination)
+              </p>
+            </div>
+
+            <div class="hud-card p-4 bg-[#17171F]">
+              <span class="font-mono text-xs text-[#FF5A1F]">CROSS-DISCIPLINARY</span>
+              <h4 class="font-chakra font-bold text-base text-[#F2EDE3] mt-1">เชื่อม 6 ศาสตร์สำคัญ</h4>
+              <p class="font-thai text-xs text-[#8A8A9E] mt-1">
+                วิทยาศาสตร์, ประวัติศาสตร์, เทคโนโลยี, วัฒนธรรม, ธรรมชาติ และศิลปะ ออกแบบให้ระเบิดไอเดียใหม่ข้ามสาขา
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SLIDE 4: HALL 03 - TARGET AUDIENCE & 3 PERSONAS
+         =================================================================== -->
+    <section class="slide-item" id="slide-3">
+      <div class="max-w-7xl mx-auto w-full my-auto space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2C2C3A] pb-4">
+          <div>
+            <div class="specimen-label mb-2">GRM-2026-AUD-004 // USER ARCHITECTURE</div>
+            <h2 class="font-chakra text-3xl font-bold uppercase text-[#F2EDE3]">
+              กลุ่มเป้าหมายอายุ 22–40 ปี และ 3 บุคลิกหลัก (AUDIENCE ARCHETYPES)
+            </h2>
+          </div>
+          <div class="font-mono text-xs text-[#2EE6FF]">
+            SHARED INSIGHT: “อยากรู้ลึก แต่ไม่อยากรู้สึกว่ากำลังเรียน”
+          </div>
+        </div>
+
+        <!-- Persona Switcher Buttons -->
+        <div class="flex flex-wrap gap-2">
+          <button class="persona-btn px-4 py-2 font-mono text-xs font-bold transition-all bg-[#D7FF3A] text-[#0B0B0F] border border-[#2C2C3A]" data-persona="curious">
+            01 // CURIOUS STARTER (22–27 ปี)
+          </button>
+          <button class="persona-btn px-4 py-2 font-mono text-xs font-bold transition-all bg-[#17171F] text-[#F2EDE3] border border-[#2C2C3A]" data-persona="creative">
+            02 // CREATIVE PROFESSIONAL (25–34 ปี)
+          </button>
+          <button class="persona-btn px-4 py-2 font-mono text-xs font-bold transition-all bg-[#17171F] text-[#F2EDE3] border border-[#2C2C3A]" data-persona="lifelong">
+            03 // LIFELONG LEARNER (30–40 ปี)
+          </button>
+        </div>
+
+        <!-- Active Persona Detail & Live Radar Chart -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <!-- Persona Detail Card -->
+          <div class="lg:col-span-7 hud-card p-6 bg-[#17171F] space-y-4">
+            <div class="flex items-center justify-between border-b border-[#2C2C3A] pb-2">
+              <h3 id="persona-name" class="font-chakra font-bold text-2xl text-[#D7FF3A]">Curious Starter</h3>
+              <span id="persona-age" class="font-mono text-xs text-[#8A8A9E]">22–27 ปี // First Jobber / นักศึกษาจบใหม่</span>
+            </div>
+
+            <div>
+              <span class="font-mono text-xs text-[#8A8A9E] uppercase">พฤติกรรมการใช้งาน:</span>
+              <p id="persona-behavior" class="font-thai text-sm text-[#F2EDE3] mt-1 leading-relaxed">
+                ใช้สมาร์ทโฟนเป็นหลัก เสพภาพสวย สรุปสั้น ชอบของที่แชร์ต่อบนโซเชียลได้ทันที
+              </p>
+            </div>
+
+            <div class="p-4 bg-[#0B0B0F] border border-[#2C2C3A]">
+              <span class="font-mono text-xs text-[#2EE6FF] uppercase">ฟีเจอร์สำคัญที่ตอบโจทย์:</span>
+              <p id="persona-need" class="font-thai text-sm text-[#F2EDE3] mt-1 font-semibold">
+                เนื้อหาจบใน 3–5 นาที + โซเชียลการ์ดขนาด 1080×1350 px สำหรับบันทึกหรือโพสต์ IG Story
+              </p>
+            </div>
+
+            <div class="takeaway-badge p-4 border-l-2 border-[#D7FF3A]">
+              <span class="font-mono text-xs text-[#D7FF3A] font-bold">✨ EVERYDAY TAKEAWAY ที่ได้รับ:</span>
+              <p id="persona-takeaway" class="font-thai text-sm text-[#F2EDE3] mt-1">
+                ได้ความรู้เบิกเนตรไปคุยกับเพื่อนหรือแชร์ลง Story ได้ทันที
+              </p>
+            </div>
+          </div>
+
+          <!-- Dynamic SVG Radar Chart -->
+          <div class="lg:col-span-5 hud-card p-6 bg-[#0B0B0F] flex flex-col items-center justify-center text-center">
+            <div class="font-mono text-xs text-[#D7FF3A] mb-2">USER VALUE RADAR (เปรียบเทียบมิติความต้องการ)</div>
+            
+            <div class="relative w-[220px] h-[220px]">
+              <svg viewBox="0 0 200 200" class="w-full h-full overflow-visible">
+                <!-- Background Web Polygons -->
+                <polygon points="100,25 171,77 144,161 56,161 29,77" fill="none" stroke="#2C2C3A" stroke-width="1" />
+                <polygon points="100,50 147,85 129,141 71,141 53,85" fill="none" stroke="#2C2C3A" stroke-width="1" />
+                <polygon points="100,75 124,92 115,120 85,120 76,92" fill="none" stroke="#2C2C3A" stroke-width="1" />
+
+                <!-- Axes -->
+                <line x1="100" y1="100" x2="100" y2="25" stroke="#2C2C3A" />
+                <line x1="100" y1="100" x2="171" y2="77" stroke="#2C2C3A" />
+                <line x1="100" y1="100" x2="144" y2="161" stroke="#2C2C3A" />
+                <line x1="100" y1="100" x2="56" y2="161" stroke="#2C2C3A" />
+                <line x1="100" y1="100" x2="29" y2="77" stroke="#2C2C3A" />
+
+                <!-- Data Polygon -->
+                <polygon id="persona-radar-poly" points="100,28 167,79 122,130 67,144 32,79" 
+                         fill="rgba(215, 255, 58, 0.25)" stroke="#D7FF3A" stroke-width="2" class="transition-all duration-500" />
+              </svg>
+
+              <!-- Axis Labels -->
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 font-mono text-[9px] text-[#D7FF3A]">SPEED (3-MIN)</span>
+              <span class="absolute top-[35%] -right-8 font-mono text-[9px] text-[#2EE6FF]">VISUAL ART</span>
+              <span class="absolute -bottom-3 right-0 font-mono text-[9px] text-[#8C6BFF]">DEPTH GRAPH</span>
+              <span class="absolute -bottom-3 left-0 font-mono text-[9px] text-[#34E89E]">PRACTICAL</span>
+              <span class="absolute top-[35%] -left-8 font-mono text-[9px] text-[#FF5A1F]">SHAREABLE</span>
+            </div>
+
+            <div class="mt-4 font-thai text-xs text-[#8A8A9E]">
+              ออกแบบประสบการณ์แบบ Mobile-first & Dark Mode เป็นค่าเริ่มต้น
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SLIDE 5: HALL 04 - CORE FEATURE 1: DATA BOOMING (3-Sec Experience)
+         =================================================================== -->
+    <section class="slide-item" id="slide-4">
+      <div class="max-w-7xl mx-auto w-full my-auto space-y-4">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2C2C3A] pb-3">
+          <div>
+            <div class="specimen-label mb-1">GRM-2026-TECH-005 // SIGNATURE INNOVATION</div>
+            <h2 class="font-chakra text-3xl font-bold uppercase text-[#F2EDE3]">
+              นวัตกรรม DATA BOOMING: ระเบิดความรู้เข้าใจได้ใน 3 วินาที
+            </h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="booming-layer-badge" class="font-mono text-xs px-2 py-1 bg-[#17171F] border border-[#D7FF3A] text-[#D7FF3A]">SEED LAYER (ระดับ 0)</span>
+            <span id="booming-counter" class="font-mono text-xs px-2 py-1 bg-[#0B0B0F] border border-[#2C2C3A] text-[#2EE6FF]">01 โหนด</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <!-- Interactive Booming Simulation Canvas Container -->
+          <div class="lg:col-span-8 hud-card p-4 bg-[#0B0B0F] relative min-h-[460px] flex flex-col justify-between overflow-hidden">
+            <!-- Stage Controls Header -->
+            <div class="flex items-center justify-between z-30">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-xs text-[#8A8A9E]">RADIAL ENGINE v2.4</span>
+                <span class="font-mono text-[10px] text-[#34E89E] bg-[#34E89E]/10 border border-[#34E89E]/30 px-1.5 py-0.5">INTERACTIVE READY</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="btn-trigger-boom" class="hud-btn text-xs py-1.5 px-3">
+                  <span>💥 จุดระเบิดความรู้ (BOOM!)</span>
+                </button>
+                <button id="btn-reset-boom" class="hud-btn-ghost text-xs py-1.5 px-3 font-mono">
+                  <span>RESET</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Interactive Stage Area -->
+            <div id="booming-stage" class="relative flex-1 w-full flex items-center justify-center my-2 overflow-hidden">
+              <!-- Dynamically injected seed & child nodes -->
+            </div>
+
+            <!-- Bottom Live Instructions -->
+            <div class="flex items-center justify-between text-[11px] font-mono text-[#8A8A9E] border-t border-[#2C2C3A] pt-2 z-30">
+              <span>● สเปกตาม Brief: โผล่ห่างกัน 40ms, วงแหวน Lime เรืองแสง, ขยายได้สูงสุด 3 ชั้น</span>
+              <span class="text-[#D7FF3A]">คลิกที่โหนดลูกเพื่อระเบิดชั้นถัดไป</span>
+            </div>
+          </div>
+
+          <!-- Right Side: Specimen Inspection & Takeaway Card -->
+          <div class="lg:col-span-4 flex flex-col justify-between space-y-4">
+            <div id="booming-specimen-preview" class="hud-card p-5 bg-[#17171F] flex-1">
+              <!-- Dynamically injected node info -->
+            </div>
+
+            <!-- Infographic Asset Preview (from folder: kg_photosynthesis_booming.png) -->
+            <div class="hud-card p-3 bg-[#0B0B0F]">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-[10px] text-[#2EE6FF]">CONCEPTUAL BLUEPRINT</span>
+                <span class="font-mono text-[9px] text-[#8A8A9E]">FOLDER ASSET #5</span>
+              </div>
+              <div class="h-28 overflow-hidden rounded relative">
+                <img src="assets/kg_photosynthesis_booming.png" alt="Data Booming Blueprint" class="w-full h-full object-cover">
+              </div>
+              <p class="font-thai text-[11px] text-[#8A8A9E] mt-2">
+                จากหัวข้อศูนย์กลาง แตกกิ่งก้านเป็นสาระสำคัญที่เชื่อมโยงกับชีวิตรอบตัวได้ทันที
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SLIDE 6: HALL 05 - CORE FEATURE 2: INTERACTIVE KNOWLEDGE GRAPH
+         =================================================================== -->
+    <section class="slide-item" id="slide-5">
+      <div class="max-w-7xl mx-auto w-full my-auto space-y-4">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2C2C3A] pb-3">
+          <div>
+            <div class="specimen-label mb-1">GRM-2026-KG-006 // FORCE-DIRECTED REPOSITORY</div>
+            <h2 class="font-chakra text-3xl font-bold uppercase text-[#F2EDE3]">
+              แผนที่ความรู้ดิจิทัลฉบับเต็ม (INTERACTIVE KNOWLEDGE GRAPH)
+            </h2>
+          </div>
+          <div class="font-mono text-xs text-[#2EE6FF]">
+            6 CATEGORIES × FORCE SIMULATION × ACCESSIBILITY SHAPES
+          </div>
+        </div>
+
+        <!-- Filter Bar & Search -->
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-[#17171F] p-2.5 border border-[#2C2C3A]">
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="font-mono text-xs text-[#8A8A9E] mr-2">หมวด:</span>
+            <button class="kg-filter-btn px-2.5 py-1 text-xs font-mono bg-[#D7FF3A] text-[#0B0B0F] border border-[#2C2C3A]" data-cat="all">ALL</button>
+            <button class="kg-filter-btn px-2.5 py-1 text-xs font-mono bg-[#17171F] text-[#8A8A9E] border border-[#2EE6FF]" data-cat="science">● วิทยาศาสตร์</button>
+            <button class="kg-filter-btn px-2.5 py-1 text-xs font-mono bg-[#17171F] text-[#8A8A9E] border border-[#FF5A1F]" data-cat="history">⬢ ประวัติศาสตร์</button>
+            <button class="kg-filter-btn px-2.5 py-1 text-xs font-mono bg-[#17171F] text-[#8A8A9E] border border-[#8C6BFF]" data-cat="tech">■ เทคโนโลยี</button>
+            <button class="kg-filter-btn px-2.5 py-1 text-xs font-mono bg-[#17171F] text-[#8A8A9E] border border-[#FFC233]" data-cat="culture">▲ วัฒนธรรม</button>
+            <button class="kg-filter-btn px-2.5 py-1 text-xs font-mono bg-[#17171F] text-[#8A8A9E] border border-[#34E89E]" data-cat="nature">◆ ธรรมชาติ</button>
+            <button class="kg-filter-btn px-2.5 py-1 text-xs font-mono bg-[#17171F] text-[#8A8A9E] border border-[#FF5FA2]" data-cat="art">◎ ศิลปะ</button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <input type="text" id="kg-search-input" placeholder="ค้นหาโหนดความรู้..." class="bg-[#0B0B0F] border border-[#2C2C3A] text-xs px-3 py-1 text-[#F2EDE3] font-thai focus:border-[#D7FF3A] outline-none w-48">
+          </div>
+        </div>
+
+        <!-- Graph Stage & Specimen Inspector Panel -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <!-- Canvas Graph Engine -->
+          <div class="lg:col-span-8 hud-card p-2 bg-[#0B0B0F] relative min-h-[440px] flex flex-col justify-between">
+            <canvas id="kg-canvas" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+            
+            <!-- Bottom Indicator -->
+            <div class="absolute bottom-3 left-3 bg-[#0B0B0F]/80 p-2 border border-[#2C2C3A] font-mono text-[10px] text-[#8A8A9E]">
+              💡 ลากโหนดเพื่อขยับ | คลิกเพื่อเปิด Specimen Label | เส้นทึบ=มีอิทธิพล, เส้นประ=ต่อยอด, เส้นจุด=นำไปใช้
+            </div>
+          </div>
+
+          <!-- Right: Specimen Label & Everyday Takeaway Card -->
+          <div class="lg:col-span-4 hud-card p-5 bg-[#17171F] flex flex-col justify-between">
+            <div id="kg-specimen-inspector">
+              <!-- Dynamically populated by app.js -->
+            </div>
+
+            <!-- Semantic Connection Info -->
+            <div class="border-t border-[#2C2C3A] pt-3 mt-3 text-[11px] font-thai text-[#8A8A9E]">
+              เชื่อมโยงตามมาตรฐาน W3C RDF / Semantic Knowledge Graph สอดคล้องกับภาพรวมในโฟลเดอร์โครงการ
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SLIDE 7: HALL 06 - DESIGN SYSTEM & EXPERIENCE TOKENS
+         =================================================================== -->
+    <section class="slide-item" id="slide-6">
+      <div class="max-w-7xl mx-auto w-full my-auto space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2C2C3A] pb-4">
+          <div>
+            <div class="specimen-label mb-2">GRM-2026-SYS-007 // DESIGN TOKENS</div>
+            <h2 class="font-chakra text-3xl font-bold uppercase text-[#F2EDE3]">
+              ระบบการออกแบบ: PAST WARM × FUTURE ELECTRIC
+            </h2>
+          </div>
+          <div class="font-mono text-xs text-[#D7FF3A]">
+            70–20–10 RATIO // WCAG AA PASS // 45° CHAMFER HUD
+          </div>
+        </div>
+
+        <!-- 70-20-10 Visualizer Bar -->
+        <div class="hud-card p-4 bg-[#17171F]">
+          <div class="flex items-center justify-between font-mono text-xs mb-2">
+            <span class="text-[#F2EDE3]">กฎสัดส่วนสี 70–20–10 เพื่อรักษาความนิ่งแบบ Modern Art Gallery</span>
+            <span class="text-[#D7FF3A]">BALANCE VERIFIED</span>
+          </div>
+          <div class="h-4 w-full flex overflow-hidden rounded">
+            <div class="w-[70%] bg-[#0B0B0F] border border-[#2C2C3A] flex items-center justify-center text-[10px] font-mono text-[#8A8A9E]">70% พื้นดำ & สีกระดาษ</div>
+            <div class="w-[20%] bg-[#17171F] border border-[#2C2C3A] flex items-center justify-center text-[10px] font-mono text-[#8A8A9E]">20% การ์ด & กริด</div>
+            <div class="w-[10%] bg-[#D7FF3A] flex items-center justify-center text-[10px] font-mono text-black font-bold">10% แบรนด์</div>
+          </div>
+        </div>
+
+        <!-- Palette Swatches Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+          <div class="hud-card p-3 bg-[#0B0B0F]">
+            <div class="h-10 w-full bg-[#0B0B0F] border border-[#2C2C3A] mb-2"></div>
+            <div class="font-mono text-xs text-[#F2EDE3] font-bold">Void Black</div>
+            <div class="font-mono text-[10px] text-[#8A8A9E]">#0B0B0F (พื้นหลัง)</div>
+          </div>
+
+          <div class="hud-card p-3 bg-[#17171F]">
+            <div class="h-10 w-full bg-[#17171F] border border-[#2C2C3A] mb-2"></div>
+            <div class="font-mono text-xs text-[#F2EDE3] font-bold">Lab Graphite</div>
+            <div class="font-mono text-[10px] text-[#8A8A9E]">#17171F (การ์ด HUD)</div>
+          </div>
+
+          <div class="hud-card p-3 bg-[#17171F]">
+            <div class="h-10 w-full bg-[#F2EDE3] mb-2"></div>
+            <div class="font-mono text-xs text-[#F2EDE3] font-bold">Archive Paper</div>
+            <div class="font-mono text-[10px] text-[#8A8A9E]">#F2EDE3 (ตัวอักษร)</div>
+          </div>
+
+          <div class="hud-card p-3 bg-[#17171F]">
+            <div class="h-10 w-full bg-[#D7FF3A] mb-2"></div>
+            <div class="font-mono text-xs text-[#D7FF3A] font-bold">Specimen Lime</div>
+            <div class="font-mono text-[10px] text-[#8A8A9E]">#D7FF3A (ปุ่ม/โหนด)</div>
+          </div>
+
+          <div class="hud-card p-3 bg-[#17171F]">
+            <div class="h-10 w-full bg-[#FF5A1F] mb-2"></div>
+            <div class="font-mono text-xs text-[#FF5A1F] font-bold">Ember Orange</div>
+            <div class="font-mono text-[10px] text-[#8A8A9E]">#FF5A1F (อดีต/เงา)</div>
+          </div>
+
+          <div class="hud-card p-3 bg-[#17171F]">
+            <div class="h-10 w-full bg-[#8C6BFF] mb-2"></div>
+            <div class="font-mono text-xs text-[#8C6BFF] font-bold">Quantum Violet</div>
+            <div class="font-mono text-[10px] text-[#8A8A9E]">#8C6BFF (อนาคต)</div>
+          </div>
+
+          <div class="hud-card p-3 bg-[#17171F]">
+            <div class="h-10 w-full bg-[#2EE6FF] mb-2"></div>
+            <div class="font-mono text-xs text-[#2EE6FF] font-bold">Hologram Cyan</div>
+            <div class="font-mono text-[10px] text-[#8A8A9E]">#2EE6FF (ข้อมูล)</div>
+          </div>
+        </div>
+
+        <!-- Typography & Contrast Specs -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="hud-card p-4 bg-[#17171F]">
+            <div class="font-mono text-xs text-[#D7FF3A] mb-1">TYPOGRAPHY TRIO</div>
+            <div class="space-y-2 mt-2">
+              <div>
+                <span class="font-chakra font-bold text-lg text-[#F2EDE3]">Chakra Petch</span>
+                <p class="text-xs text-[#8A8A9E] font-thai">หัวเรื่อง sci-fi เหลี่ยมทรงพลัง</p>
+              </div>
+              <div>
+                <span class="font-thai font-medium text-base text-[#F2EDE3]">IBM Plex Sans Thai</span>
+                <p class="text-xs text-[#8A8A9E] font-thai">เนื้อหาแบบเอกสารวิทยาศาสตร์ สบายตา</p>
+              </div>
+              <div>
+                <span class="font-mono text-sm text-[#2EE6FF]">IBM Plex Mono</span>
+                <p class="text-xs text-[#8A8A9E] font-thai">รหัส ป้ายพิกัด และ Specimen Label</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hud-card p-4 bg-[#17171F]">
+            <div class="font-mono text-xs text-[#34E89E] mb-1">ACCESSIBILITY (WCAG AA)</div>
+            <div class="space-y-2 mt-2 font-thai text-xs text-[#8A8A9E]">
+              <div class="flex justify-between border-b border-[#2C2C3A] pb-1">
+                <span>Archive Paper บน Void Black:</span>
+                <span class="font-mono text-[#34E89E] font-bold">16.8 : 1 (PASS)</span>
+              </div>
+              <div class="flex justify-between border-b border-[#2C2C3A] pb-1">
+                <span>Specimen Lime บนตัวอักษรดำ:</span>
+                <span class="font-mono text-[#34E89E] font-bold">17.0 : 1 (PASS)</span>
+              </div>
+              <div class="flex justify-between border-b border-[#2C2C3A] pb-1">
+                <span>Quantum Violet บน Void Black:</span>
+                <span class="font-mono text-[#34E89E] font-bold">5.3 : 1 (PASS)</span>
+              </div>
+              <div class="text-[11px] text-[#F2EDE3] pt-1">
+                รองรับผู้มีภาวะตาบอดสีด้วยรูปทรงเรขาคณิต 6 แบบ
+              </div>
+            </div>
+          </div>
+
+          <div class="hud-card p-4 bg-[#17171F]">
+            <div class="font-mono text-xs text-[#FF5A1F] mb-1">SIGNATURE PATTERNS</div>
+            <div class="space-y-2 mt-2 text-xs font-thai text-[#8A8A9E]">
+              <div><strong>Specimen Grid:</strong> ตาราง 48px พร้อมเครื่องหมาย + และพิกัด</div>
+              <div><strong>Time Warp:</strong> Gradient 135deg จากส้มอดีตสู่ม่วงอนาคต</div>
+              <div><strong>Chamfer 45°:</strong> ตัดมุมการ์ด 12px สไตล์แผงควบคุม HUD</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SLIDE 8: HALL 07 - EXECUTION ROADMAP WITH GOOGLE ANTIGRAVITY
+         =================================================================== -->
+    <section class="slide-item" id="slide-7">
+      <div class="max-w-7xl mx-auto w-full my-auto space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2C2C3A] pb-4">
+          <div>
+            <div class="specimen-label mb-2">GRM-2026-DEV-008 // EXECUTION PLAN</div>
+            <h2 class="font-chakra text-3xl font-bold uppercase text-[#F2EDE3]">
+              แผนพัฒนา 4 รอบด้วย GOOGLE ANTIGRAVITY (STEP 11 DELIVERY)
+            </h2>
+          </div>
+          <div class="font-mono text-xs text-[#34E89E]">
+            ACCELERATED TIMELINE: -65% TIME-TO-MARKET
+          </div>
+        </div>
+
+        <!-- 4 Sprints Process -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="hud-card p-5 bg-[#17171F] border-t-2 border-t-[#D7FF3A]">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs text-[#D7FF3A] font-bold">ROUND 01</span>
+              <span class="font-mono text-[10px] text-[#34E89E]">DONE</span>
+            </div>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3]">Tokens & Style Guide</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2">
+              ตั้งค่า CSS Variables, ฟอนต์ Google Fonts 3 ตระกูล, กริด 12/8/4 คอลัมน์ และตรวจผ่าน WCAG AA
+            </p>
+          </div>
+
+          <div class="hud-card p-5 bg-[#17171F] border-t-2 border-t-[#2EE6FF]">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs text-[#2EE6FF] font-bold">ROUND 02</span>
+              <span class="font-mono text-[10px] text-[#34E89E]">DONE</span>
+            </div>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3]">Components & HUD</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2">
+              ทำการ์ดตัดมุม 45°, Specimen Label, ปุ่ม Lime เงาแข็งส้ม, ตาราง Specimen Grid และเสียง Synth Audio
+            </p>
+          </div>
+
+          <div class="hud-card p-5 bg-[#17171F] border-t-2 border-t-[#8C6BFF]">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs text-[#8C6BFF] font-bold">ROUND 03</span>
+              <span class="font-mono text-[10px] text-[#D7FF3A] animate-pulse">ACTIVE</span>
+            </div>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3]">Exhibition Halls</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2">
+              สร้างหน้า Home, Data Booming Interactive, Knowledge Graph, Everyday Lab และ About พร้อมโมชั่น
+            </p>
+          </div>
+
+          <div class="hud-card p-5 bg-[#17171F] border-t-2 border-t-[#FF5A1F]">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs text-[#FF5A1F] font-bold">ROUND 04</span>
+              <span class="font-mono text-[10px] text-[#8A8A9E]">NEXT</span>
+            </div>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3]">Force Graph & Live Data</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2">
+              ต่อยอด D3.js (d3-force) รองรับ 500+ โหนด, ตัวเลื่อนไทม์ไลน์ และระบบดาวน์โหลดชุดข้อมูลสำหรับนักวิจัย
+            </p>
+          </div>
+        </div>
+
+        <!-- Tech Stack & AI Pair Programming Efficiency -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="hud-card p-5 bg-[#0B0B0F]">
+            <span class="font-mono text-xs text-[#2EE6FF]">ENTERPRISE ARCHITECTURE</span>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3] mt-1">สถาปัตยกรรมเทคโนโลยีที่เสถียรและเร็วสูง</h4>
+            <div class="grid grid-cols-2 gap-2 mt-3 font-mono text-xs text-[#8A8A9E]">
+              <div class="p-2 bg-[#17171F] border border-[#2C2C3A]">● Next.js App Router</div>
+              <div class="p-2 bg-[#17171F] border border-[#2C2C3A]">● Tailwind CSS Tokens</div>
+              <div class="p-2 bg-[#17171F] border border-[#2C2C3A]">● D3.js Force Canvas</div>
+              <div class="p-2 bg-[#17171F] border border-[#2C2C3A]">● TypeScript Strict</div>
+            </div>
+          </div>
+
+          <div class="hud-card p-5 bg-[#0B0B0F]">
+            <span class="font-mono text-xs text-[#D7FF3A]">ANTIGRAVITY ADVANTAGE</span>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3] mt-1">ข้อได้เปรียบของการพัฒนาด้วย Google Antigravity</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2 leading-relaxed">
+              ผสานกติกาโครงการใน <code class="text-[#D7FF3A]">.agent/rules/</code> ทำให้ AI เข้าใจ Design System อย่างเคร่งครัด ส่งมอบงานเป็นรอบ ตรวจสอบ Artifacts และ Screen capture ได้ทันทีก่อนอนุมัติ
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SLIDE 9: HALL 08 - BUSINESS VALUE, ROI & EXECUTIVE SIGN-OFF
+         =================================================================== -->
+    <section class="slide-item" id="slide-8">
+      <div class="max-w-7xl mx-auto w-full my-auto space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#2C2C3A] pb-4">
+          <div>
+            <div class="specimen-label mb-2">GRM-2026-ROI-009 // EXECUTIVE CONCLUSION</div>
+            <h2 class="font-chakra text-3xl font-bold uppercase text-[#F2EDE3]">
+              ผลตอบแทนทางธุรกิจ และข้อเสนอเพื่อขออนุมัติ (BUSINESS & ROI)
+            </h2>
+          </div>
+          <div class="font-mono text-xs text-[#D7FF3A]">
+            NORTH STAR: 1 VISIT = AT LEAST 1 EVERYDAY TAKEAWAY
+          </div>
+        </div>
+
+        <!-- 4 High-Margin Revenue Streams -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="hud-card p-5 bg-[#17171F]">
+            <div class="font-mono text-xs text-[#D7FF3A] font-bold">STREAM 01</div>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3] mt-1">Brand Curated Halls</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2">
+              แบรนด์ร่วมเป็นสปอนเซอร์นิทรรศการความรู้เชิงลึก (เช่น แบรนด์อาหารกับห้องหมักบ่ม, แบรนด์ยานยนต์กับพลังงานสะอาด)
+            </p>
+          </div>
+
+          <div class="hud-card p-5 bg-[#17171F]">
+            <div class="font-mono text-xs text-[#2EE6FF] font-bold">STREAM 02</div>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3] mt-1">Knowledge Graph API</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2">
+              เปิดบริการ API เครือข่ายความรู้สำหรับภาคการศึกษา สตาร์ทอัพ AI และองค์กรวิจัยแบบชำระค่าบริการ
+            </p>
+          </div>
+
+          <div class="hud-card p-5 bg-[#17171F]">
+            <div class="font-mono text-xs text-[#8C6BFF] font-bold">STREAM 03</div>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3] mt-1">Virtual Ticketed Shows</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2">
+              บัตรเข้าชมนิทรรศการดิจิทัลรอบพิเศษ (Exclusive Immersive Storytelling) พร้อม Q&A กับภัณฑารักษ์
+            </p>
+          </div>
+
+          <div class="hud-card p-5 bg-[#17171F]">
+            <div class="font-mono text-xs text-[#FF5A1F] font-bold">STREAM 04</div>
+            <h4 class="font-chakra font-bold text-base text-[#F2EDE3] mt-1">Everyday Merch & Labs</h4>
+            <p class="font-thai text-xs text-[#8A8A9E] mt-2">
+              สินค้าและชุดทดลองความรู้สำหรับชีวิตประจำวัน (Takeaway Kits, หนังสือภาพ Specimen Art, เวิร์กช็อป)
+            </p>
+          </div>
+        </div>
+
+        <!-- Executive Sign-Off & Next Actions -->
+        <div class="hud-card p-6 bg-[#0B0B0F] border-2 border-[#D7FF3A]/80 shadow-[0_0_30px_rgba(215,255,58,0.15)] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="space-y-2">
+            <span class="font-mono text-xs text-[#34E89E] flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#34E89E]"></span>
+              พร้อมดำเนินการทันที: เอกสารและ Design Tokens พร้อมแล้ว 100%
+            </span>
+            <h3 class="font-chakra font-bold text-2xl text-[#F2EDE3]">
+              อนุมัติเพื่อเริ่มการพัฒนาเฟสถัดไป (EXECUTIVE APPROVAL)
+            </h3>
+            <p class="font-thai text-xs text-[#8A8A9E] max-w-xl">
+              เริ่มสร้างโปรเจกต์ Next.js ตามแบบฉบับ Style Guide ใน brief ขั้นที่ 11 โดยอัตโนมัติ พร้อมส่งมอบตัวอย่างหน้าเว็บจริงรอบแรกภายใน 48 ชั่วโมง
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button id="btn-approve-project" onclick="
+              sounds.playBoom();
+              this.innerHTML = '✓ APPROVED BY EXECUTIVE';
+              this.classList.remove('bg-[#D7FF3A]');
+              this.classList.add('bg-[#34E89E]');
+              document.getElementById('approval-stamp').classList.remove('hidden');
+            " class="hud-btn whitespace-nowrap text-sm py-3 px-6">
+              <span>อนุมัติโครงการ (APPROVE PROPOSAL)</span>
+            </button>
+            <button onclick="App.goToSlide(0)" class="hud-btn-ghost text-xs px-4 font-mono">
+              REPLAY PITCH
+            </button>
+          </div>
+        </div>
+
+        <!-- Hidden Approval Stamp (Reveals upon click) -->
+        <div id="approval-stamp" class="hidden p-4 bg-[#34E89E]/10 border border-[#34E89E] flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🏛️</span>
+            <div>
+              <div class="font-chakra font-bold text-sm text-[#34E89E]">PROJECT AUTHORIZED // GRURU MUSEUM</div>
+              <div class="font-mono text-xs text-[#8A8A9E]">TIMESTAMP: 2026-10-14 // READY FOR DEPLOYMENT</div>
+            </div>
+          </div>
+          <span class="specimen-label text-[#34E89E] border-[#34E89E]">VERIFIED</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Persistent Slide Navigation Dock -->
+  <footer class="fixed bottom-0 left-0 right-0 h-16 bg-[#0B0B0F]/90 backdrop-blur-md border-t border-[#2C2C3A] z-50 flex items-center justify-between px-6">
+    <div class="flex items-center gap-2">
+      <span class="font-mono text-xs text-[#8A8A9E] hidden sm:inline">GRURU MUSEUM //</span>
+      <span class="font-mono text-xs text-[#D7FF3A]">EXECUTIVE PRESENTATION</span>
+    </div>
+
+    <!-- Navigation Arrow Buttons -->
+    <div class="flex items-center gap-3">
+      <button id="btn-prev" class="p-2 border border-[#2C2C3A] hover:border-[#D7FF3A] hover:bg-[#17171F] text-[#F2EDE3] transition-all font-mono text-xs flex items-center gap-1">
+        <span>←</span>
+        <span class="hidden sm:inline">PREV</span>
+      </button>
+
+      <!-- Slide Quick Indicators -->
+      <div class="hidden md:flex items-center gap-1.5">
+        <button onclick="App.goToSlide(0)" class="w-2.5 h-2.5 rounded-sm bg-[#D7FF3A] hover:opacity-80" title="Slide 1"></button>
+        <button onclick="App.goToSlide(1)" class="w-2.5 h-2.5 rounded-sm bg-[#2C2C3A] hover:bg-[#8A8A9E]" title="Slide 2"></button>
+        <button onclick="App.goToSlide(2)" class="w-2.5 h-2.5 rounded-sm bg-[#2C2C3A] hover:bg-[#8A8A9E]" title="Slide 3"></button>
+        <button onclick="App.goToSlide(3)" class="w-2.5 h-2.5 rounded-sm bg-[#2C2C3A] hover:bg-[#8A8A9E]" title="Slide 4"></button>
+        <button onclick="App.goToSlide(4)" class="w-2.5 h-2.5 rounded-sm bg-[#2C2C3A] hover:bg-[#8A8A9E]" title="Slide 5"></button>
+        <button onclick="App.goToSlide(5)" class="w-2.5 h-2.5 rounded-sm bg-[#2C2C3A] hover:bg-[#8A8A9E]" title="Slide 6"></button>
+        <button onclick="App.goToSlide(6)" class="w-2.5 h-2.5 rounded-sm bg-[#2C2C3A] hover:bg-[#8A8A9E]" title="Slide 7"></button>
+        <button onclick="App.goToSlide(7)" class="w-2.5 h-2.5 rounded-sm bg-[#2C2C3A] hover:bg-[#8A8A9E]" title="Slide 8"></button>
+        <button onclick="App.goToSlide(8)" class="w-2.5 h-2.5 rounded-sm bg-[#2C2C3A] hover:bg-[#8A8A9E]" title="Slide 9"></button>
+      </div>
+
+      <button id="btn-next" class="hud-btn py-1.5 px-3 text-xs">
+        <span class="hidden sm:inline">NEXT</span>
+        <span>→</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Drawer: Table of Contents / Slides Index (Slides Menu) -->
+  <aside id="toc-drawer" class="fixed top-0 left-0 bottom-0 w-80 bg-[#0B0B0F] border-r border-[#2C2C3A] z-50 transform -translate-x-full transition-transform duration-300 p-6 flex flex-col justify-between shadow-2xl">
+    <div>
+      <div class="flex items-center justify-between border-b border-[#2C2C3A] pb-4 mb-4">
+        <div class="font-chakra font-bold text-lg text-[#F2EDE3]">สารบัญห้องนิทรรศการ</div>
+        <button id="btn-close-drawer" class="text-xs font-mono text-[#8A8A9E] hover:text-[#D7FF3A] border border-[#2C2C3A] p-1">✕</button>
+      </div>
+      <div id="drawer-slides-list" class="space-y-1">
+        <!-- Dynamically injected -->
+      </div>
+    </div>
+    <div class="border-t border-[#2C2C3A] pt-4 font-mono text-[11px] text-[#8A8A9E]">
+      GRURU MUSEUM // FUTURE ARCHAEOLOGY<br>
+      VERSION: 1.0 // EXECUTIVE DECK
+    </div>
+  </aside>
+
+  <!-- Drawer: Executive Presenter Speaking Notes -->
+  <aside id="notes-drawer" class="fixed top-0 right-0 bottom-0 w-96 bg-[#17171F] border-l border-[#2C2C3A] z-50 transform translate-x-full transition-transform duration-300 p-6 flex flex-col justify-between shadow-2xl">
+    <div>
+      <div class="flex items-center justify-between border-b border-[#2C2C3A] pb-4 mb-4">
+        <div class="flex items-center gap-2">
+          <span>📝</span>
+          <span class="font-chakra font-bold text-lg text-[#D7FF3A]">EXECUTIVE SPEAKING NOTES</span>
+        </div>
+        <button id="btn-close-notes" class="text-xs font-mono text-[#8A8A9E] hover:text-[#D7FF3A] border border-[#2C2C3A] p-1">✕</button>
+      </div>
+      <div id="notes-content-text" class="text-sm font-thai text-[#F2EDE3] leading-relaxed">
+        <!-- Dynamically populated based on active slide -->
+      </div>
+    </div>
+    <div class="p-3 bg-[#0B0B0F] border border-[#2C2C3A] font-mono text-[11px] text-[#8A8A9E]">
+      HOTKEY: กด <kbd class="px-1 bg-[#2C2C3A] text-white">N</kbd> เพื่อเปิด/ปิดโน้ตผู้นำเสนอ
+    </div>
+  </aside>
+
+  <!-- App Main Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
